@@ -1,0 +1,61 @@
+name: Auto Release and Discord Notify
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    environment: Prod
+    permissions:
+      contents: write
+
+    steps:
+      - name: 檢出儲存庫代碼
+        uses: actions/checkout@v4
+
+      - name: 取得版本號與格式化日期
+        id: vars
+        run: |
+          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          # 設定台北時間 (UTC+8)
+          echo "DATE=$(TZ='Asia/Taipei' date +'%Y-%m-%d %H:%M')" >> $GITHUB_OUTPUT
+
+      - name: 打包翻譯檔 (ZIP)
+        run: |
+          # 打包繁體中文資料夾
+          zip -r "sc-localization-zh-TW-${{ steps.vars.outputs.VERSION }}.zip" "./chinese_(traditional)/"
+
+      - name: 建立 GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.vars.outputs.VERSION }}
+          name: "Release ${{ steps.vars.outputs.VERSION }}"
+          body: |
+            ## 星際公民繁體中文更新
+            - **對應遊戲版本**: ${{ steps.vars.outputs.VERSION }}
+            - **發布日期**: ${{ steps.vars.outputs.DATE }} (台北時間)
+            
+            *此版本由 GitHub Action 自動生成並打包發布。*
+          files: |
+            sc-localization-zh-TW-${{ steps.vars.outputs.VERSION }}.zip
+
+      - name: Discord 通知
+        uses: sarisia/actions-status-discord@v1
+        if: success()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          content: "<@&${{ secrets.DISCORD_ROLE_ID }}>"
+          title: "🚀 星際公民繁中翻譯更新：${{ steps.vars.outputs.VERSION }}"
+          description: |
+            最新的繁體中文翻譯包已經發布！
+            
+            📅 **發布日期**: ${{ steps.vars.outputs.DATE }} (台北時間)
+            📦 **版本號**: ${{ steps.vars.outputs.VERSION }}
+            
+            [👉 前往 GitHub 下載最新翻譯](https://github.com/${{ github.repository }}/releases/latest)
+          color: 0x00ff00  # 綠色
+          username: "SC 翻譯發布助手"
