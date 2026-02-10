@@ -71,6 +71,8 @@ jobs:
         if: success()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          color: 0x00ff00
+          username: "翻譯更新發佈助手"
           content: "<@&${{ secrets.DISCORD_ROLE_ID }}>"
           title: "🚀 星際公民非官方多國語系更新：${{ steps.vars.outputs.VERSION }}"
           description: |
@@ -85,5 +87,3 @@ jobs:
             ${{ steps.diff.outputs.HAS_PREV == 'true' && format('🔍 [**查看與前版 {0} 的差異比對**]({1})', steps.diff.outputs.PREV_TAG, steps.diff.outputs.COMPARE_URL) || '' }}
             
             [👉 前往 GitHub 下載最新翻譯](https://github.com/${{ github.repository }}/releases/latest)
-          color: 0x00ff00  # 綠色
-          username: "SC 翻譯發布助手"
