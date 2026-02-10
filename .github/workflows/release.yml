@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: 檢出儲存庫代碼
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: 取得版本號與格式化日期
         id: vars
@@ -22,6 +24,23 @@ jobs:
           echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           # 設定台北時間 (UTC+8)
           echo "DATE=$(TZ='Asia/Taipei' date +'%Y-%m-%d %H:%M')" >> $GITHUB_OUTPUT
+
+      - name: 取得前一版本與比對連結
+        id: diff
+        run: |
+          # 取得當前 Tag 之前的最新一個 Tag
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
+          if [ -z "$PREV_TAG" ]; then
+            echo "沒有找到前一個版本，跳過比對連結。"
+            echo "HAS_PREV=false" >> $GITHUB_OUTPUT
+          else
+            echo "找到前一版本: $PREV_TAG"
+            echo "PREV_TAG=$PREV_TAG" >> $GITHUB_OUTPUT
+            echo "HAS_PREV=true" >> $GITHUB_OUTPUT
+            # 產生 GitHub 比對連結
+            echo "COMPARE_URL=https://github.com/${{ github.repository }}/compare/$PREV_TAG...${{ steps.vars.outputs.VERSION }}" >> $GITHUB_OUTPUT
+          fi
 
       - name: 打包翻譯檔 (ZIP)
         run: |
@@ -34,12 +53,16 @@ jobs:
         with:
           tag_name: ${{ steps.vars.outputs.VERSION }}
           name: "Release ${{ steps.vars.outputs.VERSION }}"
+          generate_release_notes: true
           body: |
-            ## 星際公民繁體中文更新
+            ## 星際公民非官方多國語系更新
             - **對應遊戲版本**: ${{ steps.vars.outputs.VERSION }}
             - **發布日期**: ${{ steps.vars.outputs.DATE }} (台北時間)
+
+            ## 語系檔說明
+            zh-TW: 繁體中文
             
-            *此版本由 GitHub Action 自動生成並打包發布。*
+            *此版本由 GitHub Actions 自動生成並打包發布。*
           files: |
             sc-localization-zh-TW-${{ steps.vars.outputs.VERSION }}.zip
 
@@ -49,12 +72,17 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           content: "<@&${{ secrets.DISCORD_ROLE_ID }}>"
-          title: "🚀 星際公民繁中翻譯更新：${{ steps.vars.outputs.VERSION }}"
+          title: "🚀 星際公民非官方多國語系更新：${{ steps.vars.outputs.VERSION }}"
           description: |
-            最新的繁體中文翻譯包已經發布！
+            最新的星際公民非官方多國語系已經發布！
             
             📅 **發布日期**: ${{ steps.vars.outputs.DATE }} (台北時間)
             📦 **版本號**: ${{ steps.vars.outputs.VERSION }}
+
+            語系檔說明
+            zh-TW: 繁體中文
+
+            ${{ steps.diff.outputs.HAS_PREV == 'true' && format('🔍 [**查看與前版 {0} 的差異比對**]({1})', steps.diff.outputs.PREV_TAG, steps.diff.outputs.COMPARE_URL) || '' }}
             
             [👉 前往 GitHub 下載最新翻譯](https://github.com/${{ github.repository }}/releases/latest)
           color: 0x00ff00  # 綠色
