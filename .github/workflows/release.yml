@@ -29,7 +29,8 @@ jobs:
         id: diff
         run: |
           # 取得當前 Tag 之前的最新一個 Tag
-          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          # 使用 git tag 列表找出前一個版本
+          PREV_TAG=$(git tag --list 'v*' --sort=-v:refname --merged HEAD | sed -n '2p')
 
           if [ -z "$PREV_TAG" ]; then
             echo "沒有找到前一個版本，跳過比對連結。"
