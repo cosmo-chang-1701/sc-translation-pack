@@ -21,7 +21,9 @@ jobs:
       - name: 取得版本號與格式化日期
         id: vars
         run: |
-          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "GAME_VERSION=${VERSION%%-*}" >> $GITHUB_OUTPUT
           # 設定台北時間 (UTC+8)
           echo "DATE=$(TZ='Asia/Taipei' date +'%Y-%m-%d %H:%M')" >> $GITHUB_OUTPUT
 
@@ -57,8 +59,9 @@ jobs:
           generate_release_notes: true
           body: |
             ## 星際公民非官方多國語系更新
-            - **對應遊戲版本**: ${{ steps.vars.outputs.VERSION }}
             - **發布日期**: ${{ steps.vars.outputs.DATE }} (台北時間)
+            - **版本號**: ${{ steps.vars.outputs.VERSION }}
+            - **對應遊戲版本**: ${{ steps.vars.outputs.GAME_VERSION }}
 
             ## 語系檔說明
             zh-TW: 繁體中文
@@ -81,6 +84,7 @@ jobs:
             
             📅 **發布日期**: ${{ steps.vars.outputs.DATE }} (台北時間)
             📦 **版本號**: ${{ steps.vars.outputs.VERSION }}
+            🎮 **對應遊戲版本**: ${{ steps.vars.outputs.GAME_VERSION }}
 
             語系檔說明
             zh-TW: 繁體中文
