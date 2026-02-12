@@ -3,7 +3,7 @@ name: Auto Release and Discord Notify
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*.*.*-v*'
 
 jobs:
   build-and-release:
