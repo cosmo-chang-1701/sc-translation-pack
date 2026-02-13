@@ -39,6 +39,11 @@ g_language = chinese_(traditional)
 
 ---
 
+## 🐛 已知問題 (Known Issues)
+- **Grim HEX 終端機顯示原文**：目前在六角灣 (Grim HEX) 的 Dumper's Depot 商店中，購買載具組件的終端機介面尚未套用翻譯，因此仍會顯示英文原文。
+
+---
+
 ## ⚠️ 免責聲明 (Disclaimer)
 1. **官方關聯**：本專案為非官方粉絲自製內容，與 Cloud Imperium Games (CIG) 無官方關聯。所有遊戲內資源與商標版權均歸原公司所有。
 2. **翻譯準確性**：翻譯內容由 AI 生成並經過初步校對，但不保證 100% 準確，僅供遊戲參考。
