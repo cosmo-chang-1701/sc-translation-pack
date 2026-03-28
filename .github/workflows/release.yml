@@ -88,7 +88,7 @@ jobs:
 
             語系檔說明
             zh-TW: 繁體中文
-
-            ${{ steps.diff.outputs.HAS_PREV == 'true' && format('🔍 [**查看與前版 {0} 的差異比對**]({1})', steps.diff.outputs.PREV_TAG, steps.diff.outputs.COMPARE_URL) || '' }}
             
-            [👉 前往 GitHub 下載最新翻譯](https://github.com/${{ github.repository }}/releases/latest)
+            [**👉 前往 GitHub 下載最新翻譯**](https://github.com/${{ github.repository }}/releases/latest)
+
+            ${{ steps.diff.outputs.HAS_PREV == 'true' && format('🔍 [查看與前版 {0} 的差異比對]({1})', steps.diff.outputs.PREV_TAG, steps.diff.outputs.COMPARE_URL) || '' }}
