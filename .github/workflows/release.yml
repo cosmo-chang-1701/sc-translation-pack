@@ -18,37 +18,88 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 取得版本號與格式化日期
+      - name: 解析版本資訊與格式化日期
         id: vars
         run: |
-          VERSION=${GITHUB_REF#refs/tags/}
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "GAME_VERSION=${VERSION%%-*}" >> $GITHUB_OUTPUT
-          # 設定台北時間 (UTC+8)
+          # 取得完整 Tag (e.g., v4.7.0-v1)
+          FULL_TAG=${GITHUB_REF#refs/tags/}
+          echo "VERSION=$FULL_TAG" >> $GITHUB_OUTPUT
+          
+          # 1. 提取遊戲版本 (v4.7.0-v1 -> 4.7.0)
+          # 先移除開頭的 v，再刪除第一個出現的 -v 及其後面的所有內容
+          TMP_V=${FULL_TAG#v}
+          echo "GAME_VERSION=${TMP_V%-v*}" >> $GITHUB_OUTPUT
+          
+          # 2. 環境設定 (由於 Tag 不再包含環境，預設為 LIVE)
+          echo "ENV=LIVE" >> $GITHUB_OUTPUT
+
+          # 3. 設定台北時間 (UTC+8)
           echo "DATE=$(TZ='Asia/Taipei' date +'%Y-%m-%d %H:%M')" >> $GITHUB_OUTPUT
 
-      - name: 取得前一版本與比對連結
+      - name: 取得前一版本與 Commit 摘要
         id: diff
         run: |
-          # 取得當前 Tag 之前的最新一個 Tag
-          # 使用 git tag 列表找出前一個版本
-          PREV_TAG=$(git tag --list 'v*' --sort=-v:refname --merged HEAD | sed -n '2p')
-
+          # 取得上一個符合 v*.*.*-v* 格式的 Tag
+          PREV_TAG=$(git tag --list 'v*.*.*-v*' --sort=-v:refname --merged HEAD | sed -n '2p')
+          
           if [ -z "$PREV_TAG" ]; then
-            echo "沒有找到前一個版本，跳過比對連結。"
             echo "HAS_PREV=false" >> $GITHUB_OUTPUT
+            echo "CHANGELOG=- 首次發布版本" >> $GITHUB_OUTPUT
           else
-            echo "找到前一版本: $PREV_TAG"
-            echo "PREV_TAG=$PREV_TAG" >> $GITHUB_OUTPUT
             echo "HAS_PREV=true" >> $GITHUB_OUTPUT
-            # 產生 GitHub 比對連結
+            echo "PREV_TAG=$PREV_TAG" >> $GITHUB_OUTPUT
             echo "COMPARE_URL=https://github.com/${{ github.repository }}/compare/$PREV_TAG...${{ steps.vars.outputs.VERSION }}" >> $GITHUB_OUTPUT
+            
+            # 抓取兩 Tag 間的非 Merge Commits
+            LOG=$(git log $PREV_TAG..${{ steps.vars.outputs.VERSION }} --oneline --no-merges --pretty=format:"- %s (%h)")
+            
+            echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+            echo "$LOG" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
           fi
 
       - name: 打包翻譯檔 (ZIP)
         run: |
-          # 打包繁體中文資料夾
           zip -r "sc-localization-zh-TW-${{ steps.vars.outputs.VERSION }}.zip" "./chinese_(traditional)/"
+
+      - name: 生成 Release Notes 檔案
+        id: gen_notes
+        run: |
+          VER="${{ steps.vars.outputs.VERSION }}"
+          G_VER="${{ steps.vars.outputs.GAME_VERSION }}"
+          ENV="${{ steps.vars.outputs.ENV }}"
+          DATE="${{ steps.vars.outputs.DATE }}"
+          DIFF_LINK="${{ steps.diff.outputs.HAS_PREV == 'true' && format('[🔍 查看與前一版本 {0} 的差異比對]({1})', steps.diff.outputs.PREV_TAG, steps.diff.outputs.COMPARE_URL) || '' }}"
+          CHANGELOG="${{ steps.diff.outputs.CHANGELOG }}"
+
+          cat <<EOF > release_notes.md
+          # 🚀 星際公民非官方多國語系更新 - $VER
+          
+          感謝使用本語系包！此版本由 GitHub Actions 自動打包發布。
+
+          - **發布日期**: $DATE (台北時間)
+          - **對應遊戲版本**: $G_VER
+          $DIFF_LINK
+
+          ---
+
+          ## 📋 更新摘要 (Commit Log)
+          $CHANGELOG
+
+          ---
+
+          ## 🛠 安裝說明
+
+          1. 下載下方附件 \`sc-localization-zh-TW-$VER.zip\`
+          2. 解壓縮該檔案
+          3. 將 \`data\` 資料夾放入您的星際公民安裝路徑：
+             \`Program Files/Roberts Space Industries/StarCitizen/$ENV/\`
+          4. 啟動遊戲即可生效
+
+          ---
+
+          💙 Credits to [MrKraken](https://github.com/MrKraken) for the award blueprint markup.
+          EOF
 
       - name: 建立 GitHub Release
         id: create_release
@@ -56,17 +107,7 @@ jobs:
         with:
           tag_name: ${{ steps.vars.outputs.VERSION }}
           name: "Release ${{ steps.vars.outputs.VERSION }}"
-          generate_release_notes: true
-          body: |
-            ## 星際公民非官方多國語系更新
-            - **發布日期**: ${{ steps.vars.outputs.DATE }} (台北時間)
-            - **版本號**: ${{ steps.vars.outputs.VERSION }}
-            - **對應遊戲版本**: ${{ steps.vars.outputs.GAME_VERSION }}
-
-            ## 語系檔說明
-            zh-TW: 繁體中文
-            
-            *此版本由 GitHub Actions 自動生成並打包發布。*
+          body_path: release_notes.md
           files: |
             sc-localization-zh-TW-${{ steps.vars.outputs.VERSION }}.zip
 
@@ -82,13 +123,10 @@ jobs:
           description: |
             最新的星際公民非官方多國語系已經發布！
             
-            📅 **發布日期**: ${{ steps.vars.outputs.DATE }} (台北時間)
-            📦 **版本號**: ${{ steps.vars.outputs.VERSION }}
-            🎮 **對應遊戲版本**: ${{ steps.vars.outputs.GAME_VERSION }}
-
-            語系檔說明
-            zh-TW: 繁體中文
+            📅 **發布日期**: ${{ steps.vars.outputs.DATE }}
+            🎮 **對應版本**: ${{ steps.vars.outputs.GAME_VERSION }}
             
-            [**👉 前往 GitHub 下載最新翻譯**](https://github.com/${{ github.repository }}/releases/latest)
-
-            ${{ steps.diff.outputs.HAS_PREV == 'true' && format('🔍 [查看與前版 {0} 的差異比對]({1})', steps.diff.outputs.PREV_TAG, steps.diff.outputs.COMPARE_URL) || '' }}
+            **最新改動：**
+            ${{ steps.diff.outputs.CHANGELOG }}
+            
+            [**👉 前往 GitHub 下載最新翻譯**](https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.VERSION }})
