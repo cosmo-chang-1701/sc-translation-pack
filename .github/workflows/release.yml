@@ -65,41 +65,34 @@ jobs:
       - name: 生成 Release Notes 檔案
         id: gen_notes
         run: |
-          VER="${{ steps.vars.outputs.VERSION }}"
-          G_VER="${{ steps.vars.outputs.GAME_VERSION }}"
-          ENV="${{ steps.vars.outputs.ENV }}"
-          DATE="${{ steps.vars.outputs.DATE }}"
-          DIFF_LINK="${{ steps.diff.outputs.HAS_PREV == 'true' && format('[🔍 查看與前一版本 {0} 的差異比對]({1})', steps.diff.outputs.PREV_TAG, steps.diff.outputs.COMPARE_URL) || '' }}"
-          CHANGELOG="${{ steps.diff.outputs.CHANGELOG }}"
-
-          cat <<EOF > release_notes.md
-          # 🚀 星際公民非官方多國語系更新 - $VER
+          cat <<'EOF_MD' > release_notes.md
+          # 🚀 星際公民非官方多國語系更新 - ${{ steps.vars.outputs.VERSION }}
           
           感謝使用本語系包！此版本由 GitHub Actions 自動打包發布。
 
-          - **發布日期**: $DATE (台北時間)
-          - **對應遊戲版本**: $G_VER
-          $DIFF_LINK
+          - **發布日期**: ${{ steps.vars.outputs.DATE }} (台北時間)
+          - **對應遊戲版本**: ${{ steps.vars.outputs.GAME_VERSION }}
+          ${{ steps.diff.outputs.HAS_PREV == 'true' && format('[🔍 查看與前一版本 {0} 的差異比對]({1})', steps.diff.outputs.PREV_TAG, steps.diff.outputs.COMPARE_URL) || '' }}
 
           ---
 
           ## 📋 更新摘要 (Commit Log)
-          $CHANGELOG
+          ${{ steps.diff.outputs.CHANGELOG }}
 
           ---
 
           ## 🛠 安裝說明
 
-          1. 下載下方附件 \`sc-localization-zh-TW-$VER.zip\`
+          1. 下載下方附件 `sc-localization-zh-TW-${{ steps.vars.outputs.VERSION }}.zip`
           2. 解壓縮該檔案
-          3. 將 \`data\` 資料夾放入您的星際公民安裝路徑：
-             \`Program Files/Roberts Space Industries/StarCitizen/$ENV/\`
+          3. 將 `data` 資料夾放入您的星際公民安裝路徑：
+             `Program Files/Roberts Space Industries/StarCitizen/${{ steps.vars.outputs.ENV }}/`
           4. 啟動遊戲即可生效
 
           ---
 
           💙 Credits to [MrKraken](https://github.com/MrKraken) for the award blueprint markup.
-          EOF
+          EOF_MD
 
       - name: 建立 GitHub Release
         id: create_release
