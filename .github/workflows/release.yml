@@ -50,8 +50,8 @@ jobs:
             echo "PREV_TAG=$PREV_TAG" >> $GITHUB_OUTPUT
             echo "COMPARE_URL=https://github.com/${{ github.repository }}/compare/$PREV_TAG...${{ steps.vars.outputs.VERSION }}" >> $GITHUB_OUTPUT
             
-            # 抓取兩 Tag 間的非 Merge Commits
-            LOG=$(git log $PREV_TAG..${{ steps.vars.outputs.VERSION }} --oneline --no-merges --pretty=format:"- %s (%h)")
+            # 抓取兩 Tag 間的非 Merge Commits (包含詳細描述)
+            LOG=$(git log $PREV_TAG..${{ steps.vars.outputs.VERSION }} --no-merges --pretty=format:"### %s (%h)%n%b%n")
             
             echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
             echo "$LOG" >> $GITHUB_OUTPUT
