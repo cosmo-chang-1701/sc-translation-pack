@@ -111,6 +111,7 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           color: 0x00ff00
           username: "翻譯更新發佈助手"
+          nodetail: true
           content: "<@&${{ secrets.DISCORD_ROLE_ID }}>"
           title: "🚀 星際公民非官方多國語系更新：${{ steps.vars.outputs.VERSION }}"
           description: |
