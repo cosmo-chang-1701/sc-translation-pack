@@ -63,7 +63,6 @@ g_language = chinese_(traditional)
 ---
 
 ## 🛠️ 開發與回報
-本專案的翻譯引擎由 [star-citizen-trans-engine](https://github.com/cosmo-chang-1701/star-citizen-trans-engine) 驅動。
 如果您發現任何翻譯錯誤、語句不通順或顯示問題，歡迎透過以下方式回報：
 - 開啟 GitHub [Issues](https://github.com/cosmo-chang-1701/sc-translation-pack/issues)
 - 加入 [Star Netrunners](https://discord.gg/2H8X3dq83n) Discord
