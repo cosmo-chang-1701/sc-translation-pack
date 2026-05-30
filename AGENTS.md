@@ -48,6 +48,10 @@ To trigger an official release:
 
 This project follows a strict and consistent format for git commit messages to keep the repository history and release notes clean and readable.
 
+> [!NOTE]
+> **套用範圍 / Scope**: 只有修改到翻譯檔（例如 `chinese_(traditional)/global.ini`）的 commit 才需要遵循此 commit message 格式。
+> Only commits that modify translation files are required to follow this commit message format.
+
 ### Commit Format Structure
 
 ```text
