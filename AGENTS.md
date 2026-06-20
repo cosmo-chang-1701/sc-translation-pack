@@ -59,7 +59,7 @@ This project follows a strict and consistent format for git commit messages to k
 
 # 繁體中文
 - 更新並優化 global.ini 中的 <修改範疇與類別> 翻譯
-- 統一術語：<術語標準化細節與例子，如將英文或舊譯名改為標準中文>
+ * 統一術語：<術語標準化細節與例子，如將英文或舊譯名改為標準中文>
 - [選填] 修復格式問題：<排版、換行符號 \n 或 HTML 標籤修正等>
 ```
 
@@ -74,7 +74,7 @@ This project follows a strict and consistent format for git commit messages to k
 2. **Commit Body**:
    - Leave exactly one blank line below the header.
    - Include the `# 繁體中文` header.
-   - Use structured bullet points (`-`) to detail the changes. Prefer prefixing bullet points with standard categories like `更新並優化`, `統一術語`, or `修復格式問題`.
+   - Use structured bullet points (`-`) to detail the changes. Prefer prefixing bullet points with standard categories like `更新並優化`, `統一術語`, or `修復格式問題`. If specifying terminology unification, it must be indented under the translation update category using `* 統一術語：...`.
 
 ### Examples
 
@@ -84,7 +84,7 @@ This project follows a strict and consistent format for git commit messages to k
 
   # 繁體中文
   - 更新並優化 global.ini 中的安全人員職位與其縮寫之翻譯
-  - 統一術語：將英文安全職稱縮寫（如 Ofc., Sr. Ofc., Cpt., Chf., Dir.）標準化為對應的中文職稱
+   * 統一術語：將英文安全職稱縮寫（如 Ofc., Sr. Ofc., Cpt., Chf., Dir.）標準化為對應的中文職稱
   ```
 
 * **Correction/Fix Example (`fix`):**
@@ -93,5 +93,5 @@ This project follows a strict and consistent format for git commit messages to k
 
   # 繁體中文
   - 更新並優化 global.ini 中的翻譯與用語
-  - 統一術語：將「幹擾」修正為「干擾」（例如：干擾箔、干擾器、干擾等）
+   * 統一術語：將「幹擾」修正為「干擾」（例如：干擾箔、干擾器、干擾等）
   ```
