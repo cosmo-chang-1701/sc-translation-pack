@@ -29,7 +29,7 @@
 1. 請前往 [Releases](https://github.com/cosmo-chang-1701/sc-translation-pack/releases) 頁面下載最新版本的語系壓縮包（例如 `sc-localization-zh-TW-v4.6.0-v1.zip`）。
 2. 將檔案解壓縮至您的遊戲安裝目錄。請確保 `global.ini` 位於正確的資料夾層級：
 `Program Files\Roberts Space Industries\StarCitizen\LIVE\data\Localization\`
-3. 修改 `user.cfg` 以載入語系檔 (以繁體中文為例)
+3. 新增或修改 `Program Files\Roberts Space Industries\StarCitizen\LIVE\user.cfg` 以載入語系檔 (以繁體中文為例)
 ```
 g_language = chinese_(traditional)
 ```
