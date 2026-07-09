@@ -56,7 +56,7 @@ g_language = chinese_(traditional)
 
 ![CC BY-NC-SA](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.svg)
 
-- **姓名標示**：您必須指名原作者（[你的名字或代號]）。
+- **姓名標示**：您必須指名原作者（Cosmo Chang）。
 - **非商業性**：您不得將本翻譯內容用於商業目的。
 - **相同方式分享**：如果您更動、轉換本作品，必須採用與原作品相同或類似的授權條款。
 
