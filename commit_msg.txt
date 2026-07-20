@@ -1,5 +1,0 @@
-fix: update translations and fix formatting in global.ini
-
-# 繁體中文
-- 更新並優化 global.ini 中的翻譯與用語
- * 統一術語：將「物品型別」修正為標準的「物品類型」
