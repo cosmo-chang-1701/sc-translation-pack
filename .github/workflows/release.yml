@@ -3,7 +3,7 @@ name: Auto Release and Discord Notify
 on:
   push:
     tags:
-      - 'v*.*.*-v*'
+      - 'v*.*.*-rev.*'
 
 jobs:
   build-and-release:
@@ -25,10 +25,10 @@ jobs:
           FULL_TAG=${GITHUB_REF#refs/tags/}
           echo "VERSION=$FULL_TAG" >> $GITHUB_OUTPUT
           
-          # 1. 提取遊戲版本 (v4.7.0-v1 -> 4.7.0)
-          # 先移除開頭的 v，再刪除第一個出現的 -v 及其後面的所有內容
+          # 1. 提取遊戲版本 (v4.10.0-rev.1 -> 4.10.0)
+          # 先移除開頭的 v，再刪除第一個出現的 -rev. 及其後面的所有內容
           TMP_V=${FULL_TAG#v}
-          echo "GAME_VERSION=${TMP_V%-v*}" >> $GITHUB_OUTPUT
+          echo "GAME_VERSION=${TMP_V%-rev.*}" >> $GITHUB_OUTPUT
           
           # 2. 環境設定 (由於 Tag 不再包含環境，預設為 LIVE)
           echo "ENV=LIVE" >> $GITHUB_OUTPUT
@@ -39,8 +39,8 @@ jobs:
       - name: 取得前一版本與 Commit 摘要
         id: diff
         run: |
-          # 取得上一個符合 v*.*.*-v* 格式的 Tag
-          PREV_TAG=$(git tag --list 'v*.*.*-v*' --sort=-v:refname --merged HEAD | sed -n '2p')
+          # 取得上一個符合 v*.*.*-rev.* 格式的 Tag
+          PREV_TAG=$(git tag --list 'v*.*.*-rev.*' --sort=-v:refname --merged HEAD | sed -n '2p')
           
           if [ -z "$PREV_TAG" ]; then
             echo "HAS_PREV=false" >> $GITHUB_OUTPUT
