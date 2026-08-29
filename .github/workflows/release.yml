@@ -85,8 +85,9 @@ jobs:
 
           1. 下載下方附件 `sc-localization-zh-TW-${{ steps.vars.outputs.VERSION }}.zip`
           2. 解壓縮該檔案
-          3. 將 `data` 資料夾放入您的星際公民安裝路徑：
-             `Program Files/Roberts Space Industries/StarCitizen/${{ steps.vars.outputs.ENV }}/`
+          3. 將解壓縮後的 `chinese_(traditional)` 資料夾放入遊戲的語系目錄（若無該資料夾請手動建立）：
+             `Program Files/Roberts Space Industries/StarCitizen/${{ steps.vars.outputs.ENV }}/data/Localization/`
+             *(確認完整路徑為：`.../data/Localization/chinese_(traditional)/global.ini`)*
           4. 啟動遊戲即可生效
 
           ---
