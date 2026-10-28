@@ -4,10 +4,17 @@ on:
   push:
     tags:
       - 'v*.*.*-rev.*'
+  workflow_dispatch:
+    inputs:
+      use_local_runner:
+        description: '改用本地 Self-hosted Runner 執行'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
+    runs-on: ${{ (inputs.use_local_runner || vars.USE_LOCAL_RUNNER == 'true') && fromJSON('["self-hosted", "linux", "x64"]') || 'ubuntu-latest' }}
     environment: Prod
     permissions:
       contents: write
@@ -22,7 +29,11 @@ jobs:
         id: vars
         run: |
           # 取得完整 Tag (e.g., v4.7.0-v1)
-          FULL_TAG=${GITHUB_REF#refs/tags/}
+          if [ "${GITHUB_REF}" != "${GITHUB_REF#refs/tags/}" ]; then
+            FULL_TAG=${GITHUB_REF#refs/tags/}
+          else
+            FULL_TAG=$(git tag --list 'v*.*.*-rev.*' --sort=-v:refname | head -n 1)
+          fi
           echo "VERSION=$FULL_TAG" >> $GITHUB_OUTPUT
           
           # 1. 提取遊戲版本 (v4.10.0-rev.1 -> 4.10.0)
