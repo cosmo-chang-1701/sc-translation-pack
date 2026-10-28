@@ -40,11 +40,6 @@ g_language = chinese_(traditional)
 
 ---
 
-## 🐛 已知問題 (Known Issues)
-- **部分區域或終端機顯示原文**：部分太空站、商店終端機或特定介面可能無法正確掛載翻譯檔，導致該部分內容仍會顯示英文原文。
-
----
-
 ## ❓ 常見問題 (FAQ)
 
 <details>
@@ -121,13 +116,6 @@ g_language = chinese_(traditional)
 - **姓名標示**：您必須指名原作者（Cosmo Chang）。
 - **非商業性**：您不得將本翻譯內容用於商業目的。
 - **相同方式分享**：如果您更動、轉換本作品，必須採用與原作品相同或類似的授權條款。
-
----
-
-## 🛠️ 開發與回報
-如果您發現任何翻譯錯誤、語句不通順或顯示問題，歡迎透過以下方式回報：
-- 開啟 GitHub [Issues](https://github.com/cosmo-chang-1701/sc-translation-pack/issues)
-- 加入 [Star Netrunners](https://discord.gg/2H8X3dq83n) Discord
 
 ---
 *願你在繁星之間飛行愉快。 See you in the verse!*
