@@ -8,14 +8,6 @@
 
 ---
 
-## 🌐 支援語系 (Supported Languages)
-
-目前專案提供以下語系支援，並持續更新中：
-- **繁體中文 (Traditional Chinese)** - `chinese_(traditional)`
-- **(More languages in progress...)**
-
----
-
 ## 🚀 特色 (Features)
 - **即時更新**：緊跟遊戲版本更新，第一時間產出新內容翻譯。
 - **AI 優化**：利用 LLM 進行語境理解，提供比傳統機械翻譯更自然的語句。
