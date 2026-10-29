@@ -1,10 +1,10 @@
-# 星際公民多國語系在地化專案 (Star Citizen Multi-language Localization Project)
+# 🚀《星際公民》台灣繁體中文化語言包 (Star Citizen Traditional Chinese Pack)
 
 ![Latest Release](https://img.shields.io/github/v/release/cosmo-chang-1701/sc-translation-pack?color=blue&label=Latest%20Version)
 ![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)
 ![Languages](https://img.shields.io/badge/Languages-ZH--TW-orange)
 
-本專案是一個由 AI 驅動（LLM Powered）的多國語系在地化發佈平台，致力於為《星際公民》(Star Citizen) 玩家提供最即時、高品質的遊戲內容翻譯。透過大型語言模型進行上下文理解，我們能快速將遊戲更新內容轉化為多國在地化語言檔案，讓全球玩家都能無障礙地體驗寰宇生活。
+本專案是一個由 AI 驅動（LLM Powered）的《星際公民》(Star Citizen) 台灣繁體中文化語言套件與發布平台，致力於為繁體中文玩家提供最即時、高品質的遊戲內容翻譯。透過大型語言模型進行上下文理解與自動化管線編譯，緊跟官方版本快速產出原生相容的繁體中文語言檔案，讓玩家都能無障礙地體驗寰宇生活。
 
 ---
 

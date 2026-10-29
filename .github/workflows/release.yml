@@ -77,7 +77,7 @@ jobs:
         id: gen_notes
         run: |
           cat <<'EOF_MD' > release_notes.md
-          # 🚀 星際公民非官方多國語系更新 - ${{ steps.vars.outputs.VERSION }}
+          # 🚀《星際公民》台灣繁體中文化更新 - ${{ steps.vars.outputs.VERSION }}
           
           感謝使用本語系包！此版本由 GitHub Actions 自動打包發布。
 
@@ -95,7 +95,7 @@ jobs:
           ## 🛠 安裝說明
 
           詳細安裝說明與設定請參閱：
-          👉 [安裝說明](https://github.com/star-netrunners/sc-translation-pack#-%E5%AE%89%E8%A3%9D%E8%AA%AA%E6%98%8E)
+          👉 [安裝說明](https://github.com/cosmo-chang-1701/sc-translation-pack#-%E5%AE%89%E8%A3%9D%E8%AA%AA%E6%98%8E)
 
           ---
 
@@ -121,9 +121,9 @@ jobs:
           username: "翻譯更新發佈助手"
           nodetail: true
           content: "<@&${{ secrets.DISCORD_ROLE_ID }}>"
-          title: "🚀 星際公民非官方多國語系更新：${{ steps.vars.outputs.VERSION }}"
+          title: "🚀《星際公民》台灣繁體中文化更新：${{ steps.vars.outputs.VERSION }}"
           description: |
-            最新的星際公民非官方多國語系已經發布！
+            最新《星際公民》台灣繁體中文化語言包已經發布！
             
             📅 **發布日期**: ${{ steps.vars.outputs.DATE }}
             🎮 **對應版本**: ${{ steps.vars.outputs.GAME_VERSION }}
