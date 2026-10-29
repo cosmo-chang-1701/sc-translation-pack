@@ -1,4 +1,4 @@
-# 🚀《星際公民》台灣繁體中文化語言包 (Star Citizen Traditional Chinese Pack)
+# 《星際公民》台灣繁體中文化語言包 (Star Citizen Traditional Chinese Pack)
 
 ![Latest Release](https://img.shields.io/github/v/release/cosmo-chang-1701/sc-translation-pack?color=blue&label=Latest%20Version)
 ![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)
