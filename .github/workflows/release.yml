@@ -14,14 +14,14 @@ on:
 
 jobs:
   build-and-release:
-    runs-on: ${{ (inputs.use_local_runner || vars.USE_LOCAL_RUNNER == 'true') && fromJSON('["self-hosted", "linux", "x64"]') || 'ubuntu-latest' }}
+    runs-on: ${{ (inputs.use_local_runner || vars.USE_LOCAL_RUNNER == 'true') && fromJSON('["self-hosted", "linux", "x64"]') || 'ubuntu-24.04' }}
     environment: Prod
     permissions:
       contents: write
 
     steps:
       - name: 檢出儲存庫代碼
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -108,7 +108,7 @@ jobs:
 
       - name: 建立 GitHub Release
         id: create_release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.vars.outputs.VERSION }}
           name: "Release ${{ steps.vars.outputs.VERSION }}"
