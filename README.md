@@ -93,6 +93,15 @@ g_language = chinese_(traditional)
 
 ---
 
+## 📚 翻譯來源與參考 (Translation Sources & Credits)
+
+本專案之翻譯文本建構與校對主要參考以下上游社群專案：
+
+- **英文語系檔**：使用 [MrKraken's String Replacements](https://github.com/MrKraken/StarStrings)（`https://github.com/MrKraken/StarStrings`）作為英文基礎字串替換來源。
+- **簡體中文參照版本**：使用 **星際公民中文百科（星际公民中文百科）** 的 [雙語漢化版（物品名、地名同時使用中文和英文）](https://ini.42kit.com/both/global.ini)（`https://ini.42kit.com/both/global.ini`）作為翻譯對照參考。
+
+---
+
 ## ⚠️ 免責聲明 (Disclaimer)
 1. **官方關聯**：本專案為非官方粉絲自製內容，與 Cloud Imperium Games (CIG) 無官方關聯。所有遊戲內資源與商標版權均歸原公司所有。
 2. **翻譯準確性**：翻譯內容由 AI 生成並經過初步校對，但不保證 100% 準確，僅供遊戲參考。
@@ -108,6 +117,8 @@ g_language = chinese_(traditional)
 - **姓名標示**：您必須指名原作者（Cosmo Chang）。
 - **非商業性**：您不得將本翻譯內容用於商業目的。
 - **相同方式分享**：如果您更動、轉換本作品，必須採用與原作品相同或類似的授權條款。
+
+> **註**：本專案引用之上游來源內容，其著作權與授權仍歸原專案／原作者所有。
 
 ---
 *願你在繁星之間飛行愉快。 See you in the verse!*
