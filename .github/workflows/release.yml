@@ -103,6 +103,13 @@ jobs:
 
           ---
 
+          ## 📚 翻譯來源與參考 (Translation Sources & References)
+
+          - 英文語系檔：使用 [MrKraken's String Replacements](https://github.com/MrKraken/StarStrings)
+          - 簡體中文參照版本：使用 **星際公民中文百科（星际公民中文百科）** 的 [雙語漢化版（物品名、地名同時使用中文與英文）](https://ini.42kit.com/both/global.ini)
+
+          ---
+
           💙 Credits to [MrKraken](https://github.com/MrKraken) for the award blueprint markup.
           EOF_MD
 
